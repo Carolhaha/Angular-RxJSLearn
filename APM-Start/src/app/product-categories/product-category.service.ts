@@ -12,11 +12,11 @@ import { tap, catchError } from 'rxjs/operators';
 export class ProductCategoryService {
   private productCategoriesUrl = 'api/productCategories';
 
-  // productCategories$ = this.http.get<ProductCategory[]>(this.productCategoriesUrl)
-  //   .pipe(
-  //     tap(data => console.log('categories', JSON.stringify(data))),
-  //     catchError(this.handleError)
-  //   );
+  productCategories$ = this.http.get<ProductCategory[]>(this.productCategoriesUrl)
+    .pipe(
+      tap(data => console.log('categories', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
 
   constructor(private http: HttpClient) { }
 
