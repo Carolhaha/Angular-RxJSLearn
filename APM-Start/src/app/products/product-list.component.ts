@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 import { ProductService } from './product.service';
-import {  EMPTY, Subject, combineLatest } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import {  EMPTY, Subject, combineLatest, BehaviorSubject } from 'rxjs';
+import { catchError, map, startWith } from 'rxjs/operators';
 import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
 import { ProductCategoryService } from '../product-categories/product-category.service';
 
@@ -15,12 +15,12 @@ export class ProductListComponent{
   pageTitle = 'Product List';
   errorMessage = '';
 
-  private categorySelectedSubject = new Subject<number>();
+  private categorySelectedSubject = new BehaviorSubject<number>(0);
   categorySelectedAction$ = this.categorySelectedSubject.asObservable();
 
 
   products$ = combineLatest([
-    this.productService.productsWithCategory$,
+    this.productService.productsWithAdd$,
     this.categorySelectedAction$
   ])
     .pipe(
@@ -47,7 +47,7 @@ export class ProductListComponent{
 
 
   onAdd(): void {
-    console.log('Not yet implemented');
+    this.productService.addProduct();
   }
 
   onSelected(categoryId: string): void {
